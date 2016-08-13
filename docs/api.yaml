@@ -1,0 +1,74 @@
+swagger: '2.0'
+info:
+ title: PRL
+ version: "1.0.0"
+
+
+schemes:
+ - http
+
+basePath: /
+produces:
+ - application/json
+
+paths:
+ /launch/arm:
+   post:
+     description: arm the system
+     responses:
+       200:
+         description: ok armed
+
+ /launch/disarm:
+   post:
+     description: disarm the system
+     responses:
+       200:
+         description: ok, disarmed
+
+ /launch/status:
+   get:
+     description: Returns status of all start tubes
+     tags:
+       - launch
+     responses:
+       200:
+        description: An array of statuses
+        schema:
+          $ref: "#/definitions/Status"
+
+ /launch/fire:
+  post:
+    description: Start the given rockets
+    tags:
+      - launch
+    parameters:
+    - name: tubeIds
+      in: body
+      description: Ids of the tubes to fire.
+      required: true
+      schema:
+        $ref: '#/definitions/Status'
+    responses:
+      200:
+        description: ok
+      400:
+        description: one of the tubes is empty
+
+
+definitions:
+  Status:
+    properties:
+      "armed":
+        type: boolean
+      "tubes":
+        type: array
+        items:
+          $ref: '#/definitions/TubeStatus'
+
+  TubeStatus:
+    properties:
+      "id":
+        type: number
+      "loaded":
+        type: boolean
