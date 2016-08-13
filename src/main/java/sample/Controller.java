@@ -14,21 +14,6 @@ public class Controller {
     public ProgressBar progress;
 
     public void launch(ActionEvent actionEvent) {
-        if (tube1_chkbx.isSelected()) {
-            for (int i = 0; i < 100; i++) {
-                tube1_indic.setProgress(i/100.0);
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
 
-                }
-            }
-        }
-
-        if (tube2_chkbx.isSelected()) {
-            for (int i = 0; i < 100; i++) {
-                tube2_indic.setProgress(i/100.0);
-            }
-        }
     }
 }
