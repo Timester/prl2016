@@ -8,14 +8,14 @@ import retrofit.http.POST;
 
 public interface LaunchAPI {
     @POST("launch/arm")
-    void arm();
+    Call<Void> arm();
 
     @POST("launch/disarm")
-    void disarm();
+    Call<Void> disarm();
 
     @GET("launch/status")
     Call<Status> status();
 
     @POST("launch/fire")
-    void fire();
+    Call<Void> fire();
 }
