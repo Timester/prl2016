@@ -1,4 +1,4 @@
-package sample;
+package net.talqum.prl.ui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Controller {
+public class UIController {
 
     private static final String BASE_URL = "http://127.0.0.1:8000/";
 
@@ -27,7 +27,7 @@ public class Controller {
 
     public static final ObservableList statuses = FXCollections.observableArrayList();
 
-    public Controller() {
+    public UIController() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(JacksonConverterFactory.create())
@@ -55,8 +55,6 @@ public class Controller {
         }
 
     }
-
-
 
     private void refreshStatus() {
         Call<Status> status = apiService.status();

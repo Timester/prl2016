@@ -17,7 +17,7 @@ paths:
      description: arm the system
      responses:
        200:
-         description: ok armed
+         description: ok, armed
 
  /launch/disarm:
    post:
@@ -48,7 +48,9 @@ paths:
       description: Ids of the tubes to fire.
       required: true
       schema:
-        $ref: '#/definitions/Status'
+        type: array
+        items:
+          type: number
     responses:
       200:
         description: ok

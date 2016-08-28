@@ -1,4 +1,4 @@
-package sample;
+package net.talqum.prl;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
