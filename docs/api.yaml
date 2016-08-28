@@ -57,6 +57,38 @@ paths:
       400:
         description: one of the tubes is empty
 
+/move:
+  get:
+    description: get the status of the tower
+    tags:
+     - move
+    responses:
+      200:
+        description: ok status returned
+        schema:
+          $ref: "#/definitions/TowerStatus"
+
+  post:
+    description: Starts or stops moving the tubes in a  direction
+    tags:
+      - move
+    parameters:
+    - name: Command
+      in: body
+      description: JSON object defining a command
+      required: true
+      schema:
+        $ref: "#/definitions/Command"
+    responses:
+      200:
+        description: ok command executed
+        schema:
+          $ref: "#/definitions/TowerStatus"
+      400:
+        description: bad request, invalid Command
+      500:
+        description: error during execution
+
 
 definitions:
   Status:
@@ -74,3 +106,23 @@ definitions:
         type: number
       "loaded":
         type: boolean
+
+  TowerStatus:
+    properties:
+      "movingdirections":
+        type: array
+        items:
+          type: string
+
+  Command:
+    properties:
+      "type":
+        type: string
+        description: enum of cmd, reset, test
+      "direction":
+        type: string
+        description: enum of up, down, cw, ccw
+      "action":
+        type: string
+        description: enum of start, stop
+
