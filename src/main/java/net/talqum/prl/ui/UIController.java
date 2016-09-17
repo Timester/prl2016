@@ -5,8 +5,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import net.talqum.prl.server.api.LaunchAPI;
+import net.talqum.prl.server.api.MoveAPI;
 import net.talqum.prl.server.model.Status;
 import net.talqum.prl.server.model.TubeStatus;
+import net.talqum.prl.server.model.util.CommandFactory;
 import retrofit.Call;
 import retrofit.JacksonConverterFactory;
 import retrofit.Response;
@@ -21,6 +23,7 @@ public class UIController {
     private static final String BASE_URL = "http://127.0.0.1:8000/";
 
     private LaunchAPI apiService;
+    private MoveAPI moveAPIService;
 
     public ListView tube_list;
     public Label status_lbl;
@@ -34,6 +37,7 @@ public class UIController {
                 .build();
 
         apiService = retrofit.create(LaunchAPI.class);
+        moveAPIService = retrofit.create(MoveAPI.class);
     }
 
     public void arm(ActionEvent actionEvent) {
@@ -72,5 +76,29 @@ public class UIController {
             e.printStackTrace();
 
         }
+    }
+
+    public void moveUp(ActionEvent actionEvent) {
+        moveAPIService.move(CommandFactory.startUpCommand());
+    }
+
+    public void moveDown(ActionEvent actionEvent) {
+        moveAPIService.move(CommandFactory.startDownCommand());
+    }
+
+    public void moveCCW(ActionEvent actionEvent) {
+        moveAPIService.move(CommandFactory.startCCWCommand());
+    }
+
+    public void moveCW(ActionEvent actionEvent) {
+        moveAPIService.move(CommandFactory.startCWCommand());
+    }
+
+    public void moveReset(ActionEvent actionEvent) {
+        moveAPIService.move(CommandFactory.resetCommand());
+    }
+
+    public void moveTest(ActionEvent actionEvent) {
+        moveAPIService.move(CommandFactory.testCommand());
     }
 }

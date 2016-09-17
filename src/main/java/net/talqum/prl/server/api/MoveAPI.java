@@ -14,5 +14,5 @@ public interface MoveAPI {
     Call<TowerStatus> getTowerSTatus();
 
     @POST("move")
-    Call<TowerStatus> status(@Body Command command);
+    Call<TowerStatus> move(@Body Command command);
 }

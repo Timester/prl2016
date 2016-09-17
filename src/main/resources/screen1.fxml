@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.talqum.prl.ui.UIController">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.talqum.prl.ui.UIController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -51,12 +51,18 @@
         </Menu>
       </menus>
     </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="371.0" prefWidth="674.0" VBox.vgrow="ALWAYS">
       <children>
             <Button fx:id="arm_btn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#arm" text="Arm" />
             <Button fx:id="disarm_btn" layoutX="14.0" layoutY="54.0" mnemonicParsing="false" onAction="#disarm" text="Disarm" />
             <ListView fx:id="tube_list" layoutX="220.0" layoutY="14.0" prefHeight="341.0" prefWidth="200.0" />
             <Label fx:id="status_lbl" layoutX="89.0" layoutY="177.0" text="Label" />
+            <Button fx:id="moveup" layoutX="502.0" layoutY="164.0" mnemonicParsing="false" onAction="#moveUp" prefHeight="27.0" prefWidth="53.0" text="Up" />
+            <Button fx:id="movedown" layoutX="502.0" layoutY="235.0" mnemonicParsing="false" onAction="#moveDown" text="Down" />
+            <Button fx:id="moveccw" layoutX="432.0" layoutY="201.0" mnemonicParsing="false" onAction="#moveCCW" prefHeight="27.0" prefWidth="53.0" text="CCW" />
+            <Button fx:id="movecw" layoutX="567.0" layoutY="201.0" mnemonicParsing="false" onAction="#moveCW" prefHeight="27.0" prefWidth="53.0" text="CW" />
+            <Button fx:id="movereset" layoutX="502.0" layoutY="201.0" mnemonicParsing="false" onAction="#moveReset" text="Reset" />
+            <Button fx:id="movetest" layoutX="508.0" layoutY="315.0" mnemonicParsing="false" onAction="#moveTest" text="Test" />
       </children>
     </AnchorPane>
   </children>
