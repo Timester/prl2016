@@ -11,7 +11,7 @@ import retrofit.http.POST;
 public interface MoveAPI {
 
     @GET("move")
-    Call<TowerStatus> getTowerSTatus();
+    Call<TowerStatus> getTowerStatus();
 
     @POST("move")
     Call<TowerStatus> move(@Body Command command);
