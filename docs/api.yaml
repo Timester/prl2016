@@ -118,7 +118,7 @@ definitions:
     properties:
       "type":
         type: string
-        description: enum of cmd, reset, test
+        description: enum of cmd, reset, test, service
       "direction":
         type: string
         description: enum of up, down, cw, ccw

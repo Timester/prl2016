@@ -47,5 +47,9 @@ public class CommandFactory {
     public static Command testCommand() {
         return new Command(CommandType.test, null, null);
     }
+
+    public static Command serviceCommand() {
+        return new Command(CommandType.service, null, null);
+    }
 }
 

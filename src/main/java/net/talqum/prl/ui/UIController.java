@@ -9,6 +9,7 @@ import net.talqum.prl.server.api.MoveAPI;
 import net.talqum.prl.server.model.Status;
 import net.talqum.prl.server.model.TubeStatus;
 import net.talqum.prl.server.model.util.CommandFactory;
+
 import retrofit.Call;
 import retrofit.JacksonConverterFactory;
 import retrofit.Response;
@@ -26,16 +27,16 @@ public class UIController {
     public Button disarm_btn;
     public Slider delay_slider;
 
-    private LaunchAPI apiService;
-    private MoveAPI moveAPIService;
+    private LaunchAPI launchApiService;
+    private MoveAPI moveApiService;
 
-    public ListView tube_list;
+    public ListView<TubeStatus> tube_list;
     public Label status_lbl;
 
     public RadioButton mode_series;
     public RadioButton mode_selected;
 
-    public static final ObservableList statuses = FXCollections.observableArrayList();
+    private static final ObservableList statuses = FXCollections.observableArrayList();
 
     public UIController() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -43,13 +44,13 @@ public class UIController {
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
 
-        apiService = retrofit.create(LaunchAPI.class);
-        moveAPIService = retrofit.create(MoveAPI.class);
+        launchApiService = retrofit.create(LaunchAPI.class);
+        moveApiService = retrofit.create(MoveAPI.class);
     }
 
     public void arm(ActionEvent actionEvent) {
         try {
-            apiService.arm().execute();
+            launchApiService.arm().execute();
             refreshStatus();
             setDisable(false);
         } catch (IOException e) {
@@ -59,7 +60,7 @@ public class UIController {
 
     public void disarm(ActionEvent actionEvent) {
         try {
-            apiService.disarm().execute();
+            launchApiService.disarm().execute();
             refreshStatus();
             setDisable(true);
         } catch (IOException e) {
@@ -69,9 +70,21 @@ public class UIController {
     }
 
     public void fire(ActionEvent actionEvent) {
-        handleDelay();
         if (mode_selected.isSelected()) {
-            // TODO
+            ObservableList<TubeStatus> selectedItems = tube_list.getSelectionModel().getSelectedItems();
+
+            List<Integer> tubesToStart = selectedItems.stream()
+                    .filter(TubeStatus::isLoaded)
+                    .map(TubeStatus::getId)
+                    .collect(Collectors.toList());
+
+            try {
+                Response<Void> execute = launchApiService.fire(tubesToStart).execute();
+
+                execute.isSuccess();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
             // TODO
         }
@@ -80,39 +93,43 @@ public class UIController {
     }
 
     public void moveUp(ActionEvent actionEvent) {
-        moveAPIService.move(CommandFactory.startUpCommand());
+        moveApiService.move(CommandFactory.startUpCommand());
     }
 
     public void moveDown(ActionEvent actionEvent) {
-        moveAPIService.move(CommandFactory.startDownCommand());
+        moveApiService.move(CommandFactory.startDownCommand());
     }
 
     public void moveCCW(ActionEvent actionEvent) {
-        moveAPIService.move(CommandFactory.startCCWCommand());
+        moveApiService.move(CommandFactory.startCCWCommand());
     }
 
     public void moveCW(ActionEvent actionEvent) {
-        moveAPIService.move(CommandFactory.startCWCommand());
+        moveApiService.move(CommandFactory.startCWCommand());
     }
 
     public void moveReset(ActionEvent actionEvent) {
-        moveAPIService.move(CommandFactory.resetCommand());
+        moveApiService.move(CommandFactory.resetCommand());
     }
 
     public void moveTest(ActionEvent actionEvent) {
-        moveAPIService.move(CommandFactory.testCommand());
+        moveApiService.move(CommandFactory.testCommand());
+    }
+
+    public void moveService(ActionEvent actionEvent) {
+        moveApiService.move(CommandFactory.serviceCommand());
     }
 
 
     private void refreshStatus() {
-        Call<Status> status = apiService.status();
+        Call<Status> status = launchApiService.status();
         try {
             Response<Status> execute = status.execute();
             status_lbl.setText(execute.body().isArmed() ? "ARMED" : "DISARMED");
 
             List<TubeStatus> tubes = execute.body().getTubes();
 
-            statuses.setAll(tubes.stream().map(x -> x.getId() + " - " + x.isLoaded()).collect(Collectors.toList()));
+            statuses.setAll(tubes);
 
             tube_list.setItems(statuses);
 

@@ -10,6 +10,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TubeStatus {
-    private long id;
+    private int id;
     private boolean loaded;
+
+    public String toString() {
+        return id + " - " + loaded;
+    }
 }
